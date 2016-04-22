@@ -34,12 +34,12 @@ int _tmain(int argc, _TCHAR* argv[])
 	fclose(fp);
 	fp = NULL;
 
-	char strInput[32] = { 0 };
+	char strInput[128] = { 0 };
 	char strOutPut[128] = { 0 };
-	int nInDataLen = 32;
+	int nInDataLen = 117;
 	int nOutDataLen = 128;
 
-	printf("Please enter no more than 32 string:");
+	printf("Please enter no more than 113 string:");
 	scanf_s("%s", &strInput, nInDataLen);
 
 	dwRet = Dongle_RsaPub(hDongle, FLAG_ENCODE, &rsaPub, (BYTE*)strInput, nInDataLen, (BYTE*)strOutPut, &nOutDataLen);
@@ -48,8 +48,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	dwRet = Dongle_RunExeFile(hDongle, 0x1234, (BYTE*)strOutPut, nOutDataLen, NULL);
 	printf("0x%08X\n", dwRet);
 
-	char str[32] = { 0 };
-	int datalen = 32;
+	char str[128] = { 0 };
+	int datalen = 117;
 	dwRet = Dongle_RsaPub(hDongle, FLAG_DECODE, &rsaPub, (BYTE*)strOutPut, nOutDataLen, (BYTE*)str, &datalen);
 	printf("0x%08X\n", dwRet);
 	printf("%s\n", str);
