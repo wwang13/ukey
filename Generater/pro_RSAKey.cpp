@@ -20,22 +20,28 @@ int _tmain(int argc, _TCHAR* argv[])
 	PRIKEY_FILE_ATTR priAttr;
 	WORD wPriID = 0x1111;
 
-	printf("Please Input AdminPin:");
-	scanf_s("%s", &AdminPin, KeyLen);
-
 	dwRet = Dongle_Enum(NULL, &nCount);
 	printf("Enum %d Dongle ARM. \n", nCount);
 
 	dwRet = Dongle_Open(&hDongle, 0);
 	printf("Open Dongle ARM. Return : 0x%08X . \n", dwRet);
 
-	dwRet = Dongle_VerifyPIN(hDongle, FLAG_ADMINPIN, AdminPin, &nRemainCount);
-	if (dwRet != DONGLE_SUCCESS)
+	while (1)
 	{
-		printf("Verify Admin PIN. failure Return: 0x%08X\n", dwRet);
-		return 0;
+		printf("Please Input Admin PIN:");
+		scanf_s("%s", AdminPin, KeyLen);
+		dwRet = Dongle_VerifyPIN(hDongle, FLAG_ADMINPIN, AdminPin, &nRemainCount);
+		if (dwRet != DONGLE_SUCCESS)
+		{
+			printf("Verify Admin PIN. failure Return: 0x%08X\n", dwRet);
+		}
+		else
+		{
+			printf("Verify Admin PIN. OK Return: 0x%08X\n", dwRet);
+			break;
+		}
 	}
-		
+				
 	priAttr.m_Size = 1024;
 	priAttr.m_Type = FILE_PRIKEY_RSA;
 	priAttr.m_Lic.m_Count = 0xFFFFFFFF;
