@@ -10,17 +10,11 @@ int _tmain(int argc, _TCHAR* argv[])
 	int nCount = 0;
 	DONGLE_HANDLE hDongle = NULL;
 
-	char AdminPin[] = "FFFFFFFFFFFFFFFF";
-	int nRemainCount = 0;
-
 	dwRet = Dongle_Enum(NULL, &nCount);
 	printf("Enum %d Dongle ARM. \n", nCount);
 
 	dwRet = Dongle_Open(&hDongle, 0);
 	printf("Open Dongle ARM. Return : 0x%08X \n", dwRet);
-
-	dwRet = Dongle_VerifyPIN(hDongle, FLAG_ADMINPIN, AdminPin, &nRemainCount);
-	printf("Verify Admin PIN. Return: 0x%08X\n", dwRet);
 
 	RSA_PUBLIC_KEY  rsaPub;
 
