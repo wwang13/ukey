@@ -50,7 +50,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	}
 
 	FILE* fp = NULL;
-	fopen_s(&fp, "D://code//PubK_Encode//PubK_Encode//1111.Rsapub", "wb");
+	fopen_s(&fp, "D://code//ukey//PublicKey//1111.Rsapub", "wb");
 	fwrite(&rsaPub, 1, sizeof(RSA_PUBLIC_KEY), fp);
 	fclose(fp);
 	fp = NULL;
