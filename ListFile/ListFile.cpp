@@ -13,11 +13,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	int nRemainCount = 255;
 
 	DONGLE_HANDLE hDongle = NULL;
-	KEY_FILE_ATTR DESkey;
-	WORD KeyID = 0x1122;
-
-	DESkey.m_Size = 16;
-	DESkey.m_Lic.m_Priv_Enc = 2;
 
 	dwRet = Dongle_Enum(NULL, &nCount);
 	printf("Enum %d Dongle ARM. \n", nCount);
