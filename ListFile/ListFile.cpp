@@ -30,18 +30,19 @@ int _tmain(int argc, _TCHAR* argv[])
 	printf("Please select file style you want to Query :\n");
 	printf("DATA_FILE = 1\n");
 	printf("EXE_FILE = 2\n");
-	printf("FILE_PRIKEY_RSA = 3\n");
+	printf("RSA_PRIKEY_FILE = 3\n");
 	printf("KEY_FILE = 4\n");
+	printf("ECCSM2_PRIKEY_FILE = 5\n");
 	printf("Your Input:  ");
 
 	int type = 0;
-	int fileID = 0, fileLen = 0;
 	scanf_s("%d", &type);
 	int dataLen = 0;
 	int count = 0;
 	EXE_FILE_LIST exe_list[64] = { 0 };
 	DATA_FILE_LIST data_file_list[32] = { 0 };
-	PRIKEY_FILE_LIST prikey_list[8] = { 0 };
+	PRIKEY_FILE_LIST RSA_prikey_list[8] = { 0 };
+	PRIKEY_FILE_LIST ECCSM2_prikey_list[16] = { 0 };
 	KEY_FILE_LIST keyFile_list[32] = { 0 };
 
 	printf("------------------------------------\n");
@@ -82,17 +83,16 @@ int _tmain(int argc, _TCHAR* argv[])
 		break;
 	case 3:
 		dataLen = 8 * sizeof(PRIKEY_FILE_LIST);
-		dwRet = Dongle_ListFile(hDongle, FILE_PRIKEY_RSA, (void*)prikey_list, &dataLen);
+		dwRet = Dongle_ListFile(hDongle, FILE_PRIKEY_RSA, (void*)RSA_prikey_list, &dataLen);
 		count = dataLen / sizeof(PRIKEY_FILE_LIST);
-
 		if (dwRet == 0xF000000F)
 			printf("No file \n");
 		else
 		{
-			printf("This is %d RSA/ECCSM2 File\n", count);
+			printf("This is %d RSA File\n", count);
 			for (int i = 0; i < count; i++)
 			{
-				printf("File  %d  ID is 0x%04X, Size is %d\n", i + 1, prikey_list[i].m_FILEID, prikey_list[i].m_attr.m_Size);
+				printf("File  %d  ID is 0x%04X, Size is %d\n", i + 1, RSA_prikey_list[i].m_FILEID, RSA_prikey_list[i].m_attr.m_Size);
 			}
 		}
 		break;
@@ -109,6 +109,21 @@ int _tmain(int argc, _TCHAR* argv[])
 			for (int i = 0; i < count; i++)
 			{
 				printf("File  %d  ID is 0x%04X, Size is %d\n", i + 1, keyFile_list[i].m_FILEID, keyFile_list[i].m_attr.m_Size);
+			}
+		}
+		break;
+	case 5:
+		dataLen = 16 * sizeof(PRIKEY_FILE_LIST);
+		dwRet = Dongle_ListFile(hDongle, FILE_PRIKEY_ECCSM2, (void*)ECCSM2_prikey_list, &dataLen);
+		count = dataLen / sizeof(PRIKEY_FILE_LIST);
+		if (dwRet == 0xF000000F)
+			printf("No file \n");
+		else
+		{
+			printf("This is %d ECCSM2 File\n", count);
+			for (int i = 0; i < count; i++)
+			{
+				printf("File  %d  ID is 0x%04X, Size is %d\n", i + 1, ECCSM2_prikey_list[i].m_FILEID, ECCSM2_prikey_list[i].m_attr.m_Size);
 			}
 		}
 		break;
