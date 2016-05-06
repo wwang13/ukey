@@ -8,7 +8,7 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	DWORD dwRet = 0;
 	int nCount = 0;
-	char AdminPin[32] = "6A4B33FFBE1B9CC3";
+	char AdminPin[32] = "FFFFFFFFFFFFFFFF"/*"6A4B33FFBE1B9CC3"*/;
 	int KeyLen = 32;
 	int nRemainCount = 255;
 

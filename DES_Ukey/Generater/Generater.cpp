@@ -8,7 +8,7 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	DWORD dwRet = 0;
 	int nCount = 0;
-	char AdminPin[32] = "FFFFFFFFFFFFFFFF";
+	char AdminPin[32] = "6A4B33FFBE1B9CC3";
 	int KeyLen = 32;
 	int nRemainCount = 255;
 
@@ -25,21 +25,29 @@ int _tmain(int argc, _TCHAR* argv[])
 	dwRet = Dongle_Open(&hDongle, 0);
 	printf("Open Dongle ARM. Return : 0x%08X . \n", dwRet);
 
-	while (1)
-	{
-		printf("Please Input Admin PIN:");
-		scanf_s("%s", AdminPin, KeyLen);
-		dwRet = Dongle_VerifyPIN(hDongle, FLAG_ADMINPIN, AdminPin, &nRemainCount);
-		if (dwRet != DONGLE_SUCCESS)
-		{
-			printf("Verify Admin PIN. failure Return: 0x%08X\n", dwRet);
-		}
-		else
-		{
-			printf("Verify Admin PIN. OK Return: 0x%08X\n", dwRet);
-			break;
-		}
-	}
+	Dongle_VerifyPIN(hDongle, FLAG_ADMINPIN, AdminPin, &nRemainCount);
+//	while (1)
+	//{
+	//	printf("Please Input Admin PIN:");
+	//	scanf_s("%s", AdminPin, KeyLen);
+	//	dwRet = Dongle_VerifyPIN(hDongle, FLAG_ADMINPIN, AdminPin, &nRemainCount);
+	//	if (dwRet != DONGLE_SUCCESS)
+	//	{
+	//		printf("Verify Admin PIN. failure Return: 0x%08X\n", dwRet);
+	//	}
+	//	else
+	//	{
+	//		printf("Verify Admin PIN. OK Return: 0x%08X\n", dwRet);
+	//		break;
+	//	}
+	//}
+	//EXE_FILE_LIST list;
+	char strList[200] = { 0 };
+	int Leng = 200;
+	dwRet = Dongle_ListFile(hDongle, FILE_EXE, strList, &Leng);
+	EXE_FILE_LIST* list = NULL;
+	list = (EXE_FILE_LIST*)strList;
+	printf("%d  0x%08X   %d\n", dwRet,list->m_FILEID, list->m_attr.m_Len);
 
 	BYTE key[16] = { 0 };
 	dwRet = Dongle_GenRandom(hDongle, 16, key);
