@@ -34,7 +34,7 @@ protected:
 
 CAboutDlg::CAboutDlg() : CDialogEx(CAboutDlg::IDD)
 {
-	
+		
 }
 
 void CAboutDlg::DoDataExchange(CDataExchange* pDX)
@@ -167,7 +167,7 @@ void CGenerateSonDlg::OnOpenUpdatafile()
 		NULL);
 	if (dlg.DoModal() == IDOK)
 	{
-		UpdataFilePath = dlg.GetPathName();
+		CString UpdataFilePath = dlg.GetPathName();
 		SetDlgItemText(IDC_Edit_UpdataFile, UpdataFilePath);
 	}
 }
@@ -183,7 +183,7 @@ void CGenerateSonDlg::OnOpenISOFile()
 		NULL);
 	if (dlg.DoModal() == IDOK)
 	{
-		ISOFilePath = dlg.GetPathName();
+		CString ISOFilePath = dlg.GetPathName();
 		SetDlgItemText(IDC_Edit_ISOFile, ISOFilePath);
 	}
 }
@@ -275,7 +275,9 @@ BOOL CGenerateSonDlg::DownloadPackage(DONGLE_HANDLE hDongle, int nCount)
 
 			char strUpdata[20480] = { 0 };
 
-			std::string strPath = CStringA(UpdataFilePath);
+			CString CFilePath = _T("");
+			GetDlgItemText(IDC_Edit_UpdataFile, CFilePath);
+			std::string strPath = CStringA(CFilePath);
 			const char* filePath = strPath.c_str();
 			FILE* fp = NULL;
 			fopen_s(&fp, filePath, "rb");
@@ -314,22 +316,26 @@ BOOL CGenerateSonDlg::GenerateCD()
 		AfxMessageBox(_T("no equipment!"));
 	}
 
-	std::string strPath = CStringA(ISOFilePath);
+	CString FilePath = _T("");
+	GetDlgItemText(IDC_Edit_ISOFile, FilePath);
+	std::string strPath = CStringA(FilePath);
 	const char* filePath = strPath.c_str();
 	CHAR szFilePath[MAX_PATH] = { 0 };
 	memcpy(szFilePath, filePath, strlen(filePath));
 	int ret = 0;
 	int tmp = 0;
+	WORD wPID = 0;
+	WORD wVID = 0;
 	for (int i = 0; i < nTotalCnt; i++)
 	{
 		g_PartLetters[0] = cPartLetters[tmp];
 		ret = ST_DownladTOCDROM(szFilePath, g_PartLetters[0], this);
 		tmp += 3;
 	}
-	if (ret != 2)
-		return FALSE;
-	else
+	if (ret == 2 ||ret == 1)
 		return TRUE;
+	else
+		return FALSE;
 }
 
 

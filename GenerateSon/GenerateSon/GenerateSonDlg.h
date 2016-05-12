@@ -31,9 +31,6 @@ protected:
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
 public:
-	CString UpdataFilePath;
-	CString ISOFilePath;
-
 	afx_msg void OnGenerateSon();
 
 	DONGLE_INFO Dongle_info[32];
